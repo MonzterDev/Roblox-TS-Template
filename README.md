@@ -16,5 +16,5 @@ Startup **Rojo** and you should be able to **sync** to **Studio** easily!
 
 ## Resources
 
-[Flamework](https://fireboltofdeath.dev/docs/flamework)
-[ProfileService](https://madstudioroblox.github.io/ProfileService/)
+* [Flamework](https://fireboltofdeath.dev/docs/flamework)
+* [ProfileService](https://madstudioroblox.github.io/ProfileService/)
