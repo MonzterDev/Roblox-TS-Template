@@ -2,7 +2,7 @@ import { OnInit, Service } from "@flamework/core";
 import ProfileService from "@rbxts/profileservice";
 import { Profile } from "@rbxts/profileservice/globals";
 import { Functions } from "server/network";
-import { DEFAULT_PLAYER_DATA } from "shared/constants";
+import { DEFAULT_PLAYER_DATA } from "shared/constants/PlayerData";
 import { PlayerData, Settings } from "shared/types/PlayerData";
 import { forEveryPlayer } from "shared/util/functions/forEveryPlayer";
 
@@ -22,9 +22,11 @@ export class PlayerDataService implements OnInit {
 
 		Functions.getData.setCallback( ( player, data ) => {
 			const profile = this.profiles.get( player );
-
 			return profile?.Data?.[data] ?? false;
 		} );
+		Functions.getAllData.setCallback( ( player ) => {
+			return this.profiles.get( player )?.Data || false
+		} )
 	}
 
 	private createProfile ( player: Player ) {

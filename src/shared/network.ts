@@ -5,6 +5,7 @@ interface ServerEvents {}
 
 interface ServerFunctions {
     getData: <k extends keyof PlayerData>( data: k ) => PlayerData[k] | false
+    getAllData: () => PlayerData | false
 }
 
 interface ClientEvents {}

@@ -1,4 +1,4 @@
-import { PlayerData } from "./types/PlayerData";
+import { PlayerData } from "../types/PlayerData";
 
 export const DEFAULT_PLAYER_DATA: PlayerData = {
     taps: 100,
