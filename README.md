@@ -1,7 +1,7 @@
 # Roblox-TS-Template
 
- This template includes **Flamework**, **ProfileService**, & some **utilities**!
- 
+ This template includes **Flamework**, **ProfileService**, **Cmdr**, **Rodux**, & some **basic utilities**!
+
  Inspiried by ReturnedTrue's [Template](https://github.com/ReturnedTrue/RobloxTSTemplate)
 
 ## Instructions
@@ -18,3 +18,5 @@ Startup **Rojo** and you should be able to **sync** to **Studio** easily!
 
 * [Flamework](https://fireboltofdeath.dev/docs/flamework)
 * [ProfileService](https://madstudioroblox.github.io/ProfileService/)
+* [Cmdr](https://eryn.io/Cmdr/)
+* [Rodux](https://github.com/Roblox/rodux)
