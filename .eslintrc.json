@@ -7,12 +7,10 @@
 		"sourceType": "module",
 		"project": "./tsconfig.json"
 	},
-	"plugins": [
-		"@typescript-eslint",
-		"roblox-ts",
-		"prettier"
-	],
+	"ignorePatterns": ["/out"],
+	"plugins": ["@typescript-eslint", "roblox-ts", "prettier"],
 	"extends": [
+		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
 		"plugin:roblox-ts/recommended",
 		"plugin:prettier/recommended"
@@ -21,12 +19,11 @@
 		"prettier/prettier": [
 			"warn",
 			{
-				"semi": true,
-				"trailingComma": "all",
-				"singleQuote": false,
 				"printWidth": 120,
 				"tabWidth": 4,
-				"useTabs": true
+				"trailingComma": "all",
+				"useTabs": true,
+				"endOfLine": "auto"
 			}
 		]
 	}

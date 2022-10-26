@@ -6,17 +6,17 @@ interface UpdateDataAction extends Action<"updatePlayerData"> {
 	data: DataState;
 }
 interface UpdateCurrencyAction extends Action<"updateCurrency"> {
-    amount: number
-    currency: ExtractKeys<PlayerData, number>
+	amount: number;
+	currency: ExtractKeys<PlayerData, number>;
 }
 
 export type DataState = PlayerData;
 export type DataActions = UpdateDataAction | UpdateCurrencyAction;
 
 export const dataReducer = createReducer<DataState, DataActions>(DEFAULT_PLAYER_DATA, {
-    updatePlayerData: ( state, action ) => action.data,
-    updateCurrency: ( state, action ) => {
-        state[action.currency] = action.amount
-        return state
-    },
-} );
+	updatePlayerData: (state, action) => action.data,
+	updateCurrency: (state, action) => {
+		state[action.currency] = action.amount;
+		return state;
+	},
+});

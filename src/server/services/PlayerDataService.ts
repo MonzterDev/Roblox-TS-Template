@@ -1,7 +1,8 @@
 import { OnInit, Service } from "@flamework/core";
 import ProfileService from "@rbxts/profileservice";
 import { Profile } from "@rbxts/profileservice/globals";
-import { Functions } from "server/network";
+import { HttpService } from "@rbxts/services";
+import { Events, Functions } from "server/network";
 import { DEFAULT_PLAYER_DATA } from "shared/constants/PlayerData";
 import { PlayerData, Settings } from "shared/types/PlayerData";
 import { forEveryPlayer } from "shared/util/functions/forEveryPlayer";
@@ -11,72 +12,58 @@ const KEY_TEMPLATE = "%d_Data";
 
 @Service()
 export class PlayerDataService implements OnInit {
-	private profileStore = ProfileService.GetProfileStore( DATASTORE_NAME, DEFAULT_PLAYER_DATA );
+	private profileStore = ProfileService.GetProfileStore(DATASTORE_NAME, DEFAULT_PLAYER_DATA);
 	private profiles = new Map<Player, Profile<PlayerData>>();
 
-	onInit () {
+	onInit() {
 		forEveryPlayer(
-			player => this.createProfile( player ),
-			player => this.removeProfile( player ),
+			(player) => this.createProfile(player),
+			(player) => this.removeProfile(player),
 		);
 
-		Functions.getData.setCallback( ( player, data ) => {
-			const profile = this.profiles.get( player );
+		Functions.getData.setCallback((player, data) => {
+			const profile = this.profiles.get(player);
 			return profile?.Data?.[data] ?? false;
-		} );
-		Functions.getAllData.setCallback( ( player ) => {
-			return this.profiles.get( player )?.Data || false
-		} )
+		});
 	}
 
-	private createProfile ( player: Player ) {
+	private createProfile(player: Player) {
 		const userId = player.UserId;
-		const profileKey = KEY_TEMPLATE.format( userId );
-		const profile = this.profileStore.LoadProfileAsync( profileKey );
+		const profileKey = KEY_TEMPLATE.format(userId);
+		const profile = this.profileStore.LoadProfileAsync(profileKey);
 
-		if ( !profile ) {
-			return player.Kick();
-		}
+		if (!profile) return player.Kick();
 
-		profile.ListenToRelease( () => {
-			this.profiles.delete( player );
+		profile.ListenToRelease(() => {
+			this.profiles.delete(player);
 			player.Kick();
-		} );
+		});
 
-		profile.AddUserId( userId );
+		profile.AddUserId(userId);
 		profile.Reconcile();
 
-		this.profiles.set( player, profile );
+		this.profiles.set(player, profile);
+		Events.updateData.fire(player, HttpService.JSONEncode(profile.Data));
 	}
 
-	private removeProfile ( player: Player ) {
-		const profile = this.profiles.get( player );
+	private removeProfile(player: Player) {
+		const profile = this.profiles.get(player);
 		profile?.Release();
 	}
 
-	private changeSetting ( player: Player, setting: keyof Settings, value: Settings[keyof Settings] ) {
-		const profile = this.getProfile( player )
-		if ( !profile ) return
+	public getProfile(player: Player) {
+		const profile = this.profiles.get(player);
 
-		profile.data.settings[setting] = value
-	}
+		if (profile) {
+			const setTaps = (value: number) => {
+				profile.Data.taps = value;
+				Events.updateTaps(player, value);
+			};
 
-	public getProfile ( player: Player ) {
-		const profile = this.profiles.get( player );
-
-		if ( profile ) {
-
-			/** Set the value directly (Adjust should be used for increase / decreasing) */
-			const setTaps = ( value: number ) => {
-				profile.Data.taps = value
-				// Events.modifiedTaps( player, value )
-			}
-
-			/** Increases / Decreases current number */
-			const adjustTaps = ( value: number ) => {
-				const amount = profile.Data.taps + value
-				setTaps( amount )
-			}
+			const adjustTaps = (value: number) => {
+				const amount = profile.Data.taps + value;
+				setTaps(amount);
+			};
 
 			return {
 				data: profile.Data,
