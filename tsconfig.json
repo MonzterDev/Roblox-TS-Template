@@ -1,32 +1,33 @@
 {
-	"compilerOptions": {
-		// required
-		"allowSyntheticDefaultImports": true,
-		"downlevelIteration": true,
-		"jsx": "react",
-		"jsxFactory": "Roact.createElement",
-		"jsxFragmentFactory": "Roact.Fragment",
-		"module": "commonjs",
-		"moduleResolution": "Node",
-		"noLib": true,
-		"resolveJsonModule": true,
-		"strict": true,
-		"target": "ESNext",
-		"typeRoots": ["node_modules/@rbxts", "node_modules/@flamework"],
+  "compilerOptions": {
+    // required
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "jsx": "react",
+    "jsxFactory": "Roact.createElement",
+    "jsxFragmentFactory": "Roact.Fragment",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "moduleDetection": "force",
+    "noLib": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "target": "ESNext",
+    "typeRoots": ["node_modules/@rbxts", "node_modules/@flamework"],
 
-		// configurable
-		"rootDir": "src",
-		"outDir": "out",
-		"baseUrl": "src",
-		"incremental": true,
-		"tsBuildInfoFile": "out/tsconfig.tsbuildinfo",
+    // configurable
+    "rootDir": "src",
+    "outDir": "out",
+    "baseUrl": "src",
+    "incremental": true,
+    "tsBuildInfoFile": "out/tsconfig.tsbuildinfo",
 
-		"experimentalDecorators": true,
-		"plugins": [
-			{
-				"transform": "rbxts-transformer-flamework",
-				"obfuscation": false
-			}
-		]
-	}
+    "experimentalDecorators": true,
+    "plugins": [
+      {
+        "transform": "rbxts-transformer-flamework",
+        "obfuscation": false
+      }
+    ]
+  }
 }
