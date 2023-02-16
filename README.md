@@ -2,7 +2,7 @@
 
  This template includes **Flamework**, **ProfileService**, **Cmdr**, **Rodux**, & some **basic utilities**!
 
- Inspiried by ReturnedTrue's [Template](https://github.com/ReturnedTrue/RobloxTSTemplate)
+ Inspired by ReturnedTrue's [Template](https://github.com/ReturnedTrue/RobloxTSTemplate)
 
 ## Instructions
 
@@ -20,3 +20,14 @@ Startup **Rojo** and you should be able to **sync** to **Studio** easily!
 * [ProfileService](https://madstudioroblox.github.io/ProfileService/)
 * [Cmdr](https://eryn.io/Cmdr/)
 * [Rodux](https://github.com/Roblox/rodux)
+* [rbxts-transform-debug](https://www.npmjs.com/package/rbxts-transform-debug)
+
+## Tips
+
+`rbxts-transform-debug` enables us to use `$print(string)` and have it displayed nicely in the output.
+```
+[src/shared/module.ts:8] 10 > 20 = false
+[src/shared/module.ts:9] x = 42
+[src/shared/module.ts:2] `Hello from ${name}!` = Hello from Vorlias!
+[src/shared/module.ts:10] Hello from Vorlias!
+```

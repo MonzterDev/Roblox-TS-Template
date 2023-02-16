@@ -27,7 +27,15 @@
       {
         "transform": "rbxts-transformer-flamework",
         "obfuscation": false
-      }
+      },
+			{
+				"transform": "rbxts-transform-debug",
+				"enabled": true,
+				"verbose": true,
+				"environmentRequires": {
+					//"NODE_ENV": "development"
+				},
+			}
     ]
   }
 }
