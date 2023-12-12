@@ -10,11 +10,11 @@
 	"ignorePatterns": ["/out", "/types"],
 	"plugins": ["@typescript-eslint", "roblox-ts", "prettier"],
 	"extends": [
-	  "plugin:roblox-ts/recommended",
 	  "eslint:recommended",
 	  "plugin:@typescript-eslint/recommended-type-checked",
 	  "plugin:@typescript-eslint/stylistic-type-checked",
-	  "plugin:prettier/recommended"
+	  "plugin:prettier/recommended",
+	  "plugin:roblox-ts/recommended"
 	],
 	"rules": {
 	  "prettier/prettier": [
