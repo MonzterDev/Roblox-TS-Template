@@ -1,15 +1,19 @@
+/* eslint-disable no-unused-vars */
 import { Networking } from "@flamework/networking";
-import { PlayerData } from "./types/PlayerData";
+import { BroadcastAction } from "@rbxts/reflex";
+import { PlayerSave } from "./store/saves/save-types";
 
-interface ServerEvents {}
-
-interface ServerFunctions {
-	getData: <k extends keyof PlayerData>(data: k) => PlayerData[k] | false;
+interface ServerEvents {
+	start: () => void;
 }
 
+interface ServerFunctions {}
+
 interface ClientEvents {
-	updateData: (data: string) => void; // Using this because Flamework's Guards can be unreliable with large tables
-	updateTaps: (amount: number) => void;
+	dispatch: (actions: Array<BroadcastAction>) => void;
+	hydrate: (actions: PlayerSave) => void;
+
+	start: () => void;
 }
 
 interface ClientFunctions {}

@@ -1,19 +1,20 @@
+/* eslint-disable roblox-ts/no-private-identifier */
 import { OnInit, Service } from "@flamework/core";
 import ProfileService from "@rbxts/profileservice";
 import { Profile } from "@rbxts/profileservice/globals";
-import { HttpService } from "@rbxts/services";
-import { Events, Functions } from "server/network";
-import { DEFAULT_PLAYER_DATA } from "shared/constants/PlayerData";
-import { PlayerData, Settings } from "shared/types/PlayerData";
-import { forEveryPlayer } from "shared/util/functions/forEveryPlayer";
+import { Players } from "@rbxts/services";
+import { store } from "server/store";
+import { selectPlayerSave } from "shared/store/saves/save-selector";
+import { PlayerSave, defaultPlayerSave } from "shared/store/saves/save-types";
+import { forEveryPlayer } from "shared/utils/functions/forEveryPlayer";
 
 const DATASTORE_NAME = "PlayerData";
 const KEY_TEMPLATE = "%d_Data";
 
 @Service()
 export class PlayerDataService implements OnInit {
-	private profileStore = ProfileService.GetProfileStore(DATASTORE_NAME, DEFAULT_PLAYER_DATA);
-	private profiles = new Map<Player, Profile<PlayerData>>();
+	private profileStore = ProfileService.GetProfileStore(DATASTORE_NAME, defaultPlayerSave);
+	private profiles = new Map<Player, Profile<PlayerSave>>();
 
 	onInit() {
 		forEveryPlayer(
@@ -21,9 +22,11 @@ export class PlayerDataService implements OnInit {
 			(player) => this.removeProfile(player),
 		);
 
-		Functions.getData.setCallback((player, data) => {
-			const profile = this.profiles.get(player);
-			return profile?.Data?.[data] ?? false;
+		task.spawn(() => {
+			while (true) {
+				Players.GetPlayers().forEach((player) => store.adjustPlayerCurrency(player.UserId, "Coins", 1));
+				task.wait(1);
+			}
 		});
 	}
 
@@ -36,6 +39,7 @@ export class PlayerDataService implements OnInit {
 
 		profile.ListenToRelease(() => {
 			this.profiles.delete(player);
+			store.deletePlayerSave(player.UserId);
 			player.Kick();
 		});
 
@@ -43,7 +47,34 @@ export class PlayerDataService implements OnInit {
 		profile.Reconcile();
 
 		this.profiles.set(player, profile);
-		Events.updateData.fire(player, HttpService.JSONEncode(profile.Data));
+		store.setPlayerSave(player.UserId, profile.Data);
+		this.createLeaderstats(player);
+
+		const unsubscribe = store.subscribe(selectPlayerSave(player.UserId), (save) => {
+			if (save) profile.Data = save;
+		});
+		Players.PlayerRemoving.Connect((player) => {
+			if (player === player) unsubscribe();
+		});
+	}
+
+	private createLeaderstats(player: Player) {
+		const leaderstats = new Instance("Folder", player);
+		leaderstats.Name = "leaderstats";
+
+		const coins = new Instance("NumberValue", leaderstats);
+		coins.Name = "Coins";
+
+		const gems = new Instance("NumberValue", leaderstats);
+		gems.Name = "Gems";
+
+		const unsubscribe = store.subscribe(selectPlayerSave(player.UserId), (save) => {
+			coins.Value = save?.currency.Coins ?? 0;
+			gems.Value = save?.currency.Gems ?? 0;
+		});
+		Players.PlayerRemoving.Connect((player) => {
+			if (player === player) unsubscribe();
+		});
 	}
 
 	private removeProfile(player: Player) {
@@ -52,26 +83,6 @@ export class PlayerDataService implements OnInit {
 	}
 
 	public getProfile(player: Player) {
-		const profile = this.profiles.get(player);
-
-		if (profile) {
-			const setTaps = (value: number) => {
-				profile.Data.taps = value;
-				Events.updateTaps(player, value);
-			};
-
-			const adjustTaps = (value: number) => {
-				const amount = profile.Data.taps + value;
-				setTaps(amount);
-			};
-
-			return {
-				data: profile.Data,
-				setTaps: setTaps,
-				adjustTaps: adjustTaps,
-			};
-		}
-
-		return false;
+		return this.profiles.get(player);
 	}
 }
