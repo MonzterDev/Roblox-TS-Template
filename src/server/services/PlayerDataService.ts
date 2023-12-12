@@ -2,18 +2,20 @@
 import { OnInit, Service } from "@flamework/core";
 import ProfileService from "@rbxts/profileservice";
 import { Profile } from "@rbxts/profileservice/globals";
-import { Players } from "@rbxts/services";
+import { Players, RunService } from "@rbxts/services";
 import { store } from "server/store";
 import { selectPlayerSave } from "shared/store/saves/save-selector";
 import { PlayerSave, defaultPlayerSave } from "shared/store/saves/save-types";
 import { forEveryPlayer } from "shared/utils/functions/forEveryPlayer";
 
-const DATASTORE_NAME = "PlayerData";
+let DataStoreName = "Production";
 const KEY_TEMPLATE = "%d_Data";
+
+if ( RunService.IsStudio() ) DataStoreName = "Testing";
 
 @Service()
 export class PlayerDataService implements OnInit {
-	private profileStore = ProfileService.GetProfileStore(DATASTORE_NAME, defaultPlayerSave);
+	private profileStore = ProfileService.GetProfileStore(DataStoreName, defaultPlayerSave);
 	private profiles = new Map<Player, Profile<PlayerSave>>();
 
 	onInit() {

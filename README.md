@@ -2,7 +2,7 @@
 
 This Roblox TypeScript (TS) template integrates popular frameworks and utilities such as Flamework, ProfileService, Cmdr, Roact, Reflex, and more.
 
-Inspired by ReturnedTrue's [Template](https://github.com/ReturnedTrue/RobloxTSTemplate)
+Inspired by ReturnedTrue's [Template](https://github.com/ReturnedTrue/RobloxTSTemplate).
 
 ## Instructions 🛠️
 
