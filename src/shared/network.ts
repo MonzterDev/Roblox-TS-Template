@@ -14,6 +14,7 @@ interface ClientEvents {
 	hydrate: (actions: PlayerSave) => void;
 
 	start: () => void;
+
 }
 
 interface ClientFunctions {}

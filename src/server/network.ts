@@ -1,4 +1,4 @@
 import { GlobalEvents, GlobalFunctions } from "shared/network";
 
-export const Events = GlobalEvents.server;
-export const Functions = GlobalFunctions.server;
+export const Events = GlobalEvents.createServer({});
+export const Functions = GlobalFunctions.createServer({});
