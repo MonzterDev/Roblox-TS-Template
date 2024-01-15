@@ -4,22 +4,22 @@ import { mapProperty } from "shared/utils/object-utils";
 import { Currency } from "shared/configs/Currency";
 import { Setting } from "shared/configs/Settings";
 
-export type SaveState = Readonly<Record<number, PlayerSave | undefined>>;
+export type SaveState = Readonly<Record<string, PlayerSave | undefined>>;
 
 const initialState: SaveState = {};
 
 export const saveSlice = createProducer(initialState, {
-	setPlayerSave: (state, player: number, save: PlayerSave) => ({
+	setPlayerSave: (state, player: string, save: PlayerSave) => ({
 		...state,
 		[player]: save,
 	}),
 
-	deletePlayerSave: (state, player: number) => ({
+	deletePlayerSave: (state, player: string) => ({
 		...state,
 		[player]: undefined,
 	}),
 
-	adjustPlayerCurrency: (state, player: number, currency: Currency, amount: number) => {
+	adjustPlayerCurrency: (state, player: string, currency: Currency, amount: number) => {
 		return mapProperty(state, player, (save) => ({
 			...save,
 			currency: {
@@ -28,13 +28,13 @@ export const saveSlice = createProducer(initialState, {
 			},
 		}));
 	},
-	adjustPlayerHealth: (state, player: number, amount: number) => {
+	adjustPlayerHealth: (state, player: string, amount: number) => {
 		return mapProperty(state, player, (save) => ({
 			...save,
 			health: math.max(save.health + amount, 0),
 		}));
 	},
-	adjustPlayerSetting: (state, player: number, setting: Setting, value: boolean) => {
+	adjustPlayerSetting: (state, player: string, setting: Setting, value: boolean) => {
 		return mapProperty(state, player, (save) => ({
 			...save,
 			settings: {

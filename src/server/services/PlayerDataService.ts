@@ -26,7 +26,7 @@ export class PlayerDataService implements OnInit {
 
 		task.spawn(() => {
 			while (true) {
-				Players.GetPlayers().forEach((player) => store.adjustPlayerCurrency(player.UserId, "Coins", 1));
+				Players.GetPlayers().forEach((player) => store.adjustPlayerCurrency(player.Name, "Coins", 1));
 				task.wait(1);
 			}
 		});
@@ -41,7 +41,7 @@ export class PlayerDataService implements OnInit {
 
 		profile.ListenToRelease(() => {
 			this.profiles.delete(player);
-			store.deletePlayerSave(player.UserId);
+			store.deletePlayerSave(player.Name);
 			player.Kick();
 		});
 
@@ -49,10 +49,10 @@ export class PlayerDataService implements OnInit {
 		profile.Reconcile();
 
 		this.profiles.set(player, profile);
-		store.setPlayerSave(player.UserId, profile.Data);
+		store.setPlayerSave(player.Name, profile.Data);
 		this.createLeaderstats(player);
 
-		const unsubscribe = store.subscribe(selectPlayerSave(player.UserId), (save) => {
+		const unsubscribe = store.subscribe(selectPlayerSave(player.Name), (save) => {
 			if (save) profile.Data = save;
 		});
 		Players.PlayerRemoving.Connect((player) => {
@@ -70,7 +70,7 @@ export class PlayerDataService implements OnInit {
 		const gems = new Instance("NumberValue", leaderstats);
 		gems.Name = "Gems";
 
-		const unsubscribe = store.subscribe(selectPlayerSave(player.UserId), (save) => {
+		const unsubscribe = store.subscribe(selectPlayerSave(player.Name), (save) => {
 			coins.Value = save?.currency.Coins ?? 0;
 			gems.Value = save?.currency.Gems ?? 0;
 		});

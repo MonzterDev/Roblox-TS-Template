@@ -3,5 +3,5 @@ import { store } from "server/store";
 import { Currency } from "shared/configs/Currency";
 
 export = function (context: CommandContext, player: Player, currency: Currency, amount: number) {
-	store.adjustPlayerCurrency(player.UserId, currency, amount);
+	store.adjustPlayerCurrency(player.Name, currency, amount);
 };

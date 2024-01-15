@@ -6,18 +6,18 @@ export const selectPlayerSaves = (state: SharedState) => {
 	return state.saves;
 };
 
-export const selectPlayerSave = (id: number) => {
-	return (state: SharedState) => state.saves[id];
+export const selectPlayerSave = (player: string) => {
+	return (state: SharedState) => state.saves[player];
 };
 
-export const selectPlayerCurrency = (id: number, currency: Currency) => {
-	return (state: SharedState) => state.saves[id]?.currency[currency];
+export const selectPlayerCurrency = (player: string, currency: Currency) => {
+	return (state: SharedState) => state.saves[player]?.currency[currency];
 };
 
-export const selectPlayerHealth = (id: number) => {
-	return (state: SharedState) => state.saves[id]?.health;
+export const selectPlayerHealth = (player: string) => {
+	return (state: SharedState) => state.saves[player]?.health;
 };
 
-export const selectPlayerSetting = (id: number, setting: Setting) => {
-	return (state: SharedState) => state.saves[id]?.settings[setting];
+export const selectPlayerSetting = (player: string, setting: Setting) => {
+	return (state: SharedState) => state.saves[player]?.settings[setting];
 };

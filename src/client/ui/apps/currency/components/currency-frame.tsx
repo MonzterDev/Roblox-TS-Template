@@ -11,7 +11,7 @@ interface Props extends Roact.PropsWithChildren {
 }
 
 function CurrencyFrame(props: Props) {
-	const balance = useSelectorCreator(selectPlayerCurrency, Players.LocalPlayer.UserId, props.currency);
+	const balance = useSelectorCreator(selectPlayerCurrency, Players.LocalPlayer.Name, props.currency);
 
 	return (
 		<frame
