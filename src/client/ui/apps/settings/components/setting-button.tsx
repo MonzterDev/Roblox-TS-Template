@@ -7,6 +7,8 @@ import { Players, RunService } from "@rbxts/services";
 import { selectPlayerSetting } from "shared/store/selectors/players";
 import { GetStatePlayerId } from "client/ui/utils/GetStatePlayerId";
 import { store } from "client/store";
+import { COLORS } from "shared/configs/Gui";
+import TextButton from "client/ui/components/textButton";
 
 interface Props {
     setting: Setting
@@ -24,35 +26,23 @@ export default function SettingButton ( props: Props ) {
     }
 
     return (
-        <textbutton
+        <TextButton
             key={props.setting}
-            BackgroundColor3={Color3.fromRGB( 0, 137, 215 )}
-            Selectable={false}
-            Text={""}
-            Event={{
-                MouseButton1Click: click
-            }}
+            backgroundColor3={Color3.fromRGB( 0, 137, 215 )}
+            onClick={click}
+            uiStrokeSize={0}
+            uiCornerSize={new UDim( 0, 10 )}
         >
-            <textbutton
+            <TextButton
                 key="Toggle"
-                BackgroundColor3={value ? Color3.fromRGB( 61, 220, 68 ) : Color3.fromRGB( 232, 70, 70 )}
-                BorderSizePixel={0}
-                Position={new UDim2( 0, 480, 0, 18 )}
-                Size={new UDim2( 0, 30, 0, 30 )}
-                Selectable={true}
-                Text={""}
-                LayoutOrder={-1}
-                Event={{
-                    MouseButton1Click: click
-                }}
-            >
-                <uistroke
-                    ApplyStrokeMode={Enum.ApplyStrokeMode.Border}
-                    Color={Color3.fromRGB( 0, 52, 82 )}
-                    Thickness={3}
-                />
-                <uicorner CornerRadius={new UDim( 0, 10 )} />
-            </textbutton>
+                backgroundColor3={value ? COLORS.Buttons.On : COLORS.Buttons.Off}
+                position={new UDim2( 0, 480, 0, 18 )}
+                size={new UDim2( 0, 30, 0, 30 )}
+                layoutOrder={-1}
+                onClick={click}
+                uiCornerSize={new UDim( 0, 10 )}
+                uiStrokeSize={3}
+            />
 
             <TextLabel
                 key={props.setting}
@@ -68,7 +58,6 @@ export default function SettingButton ( props: Props ) {
                 Color={Color3.fromRGB( 0, 52, 82 )}
                 Thickness={3}
             />
-            <uicorner CornerRadius={new UDim( 0, 10 )} />
             <uilistlayout
                 FillDirection={Enum.FillDirection.Horizontal}
                 HorizontalAlignment={Enum.HorizontalAlignment.Left}
@@ -80,6 +69,6 @@ export default function SettingButton ( props: Props ) {
                 PaddingLeft={new UDim( 0, 10 )}
             />
 
-        </textbutton>
+        </TextButton>
     );
 }
