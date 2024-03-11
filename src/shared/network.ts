@@ -4,17 +4,19 @@ import { BroadcastAction } from "@rbxts/reflex";
 import { PlayerSave } from "./store/saves/save-types";
 
 interface ServerEvents {
-	start: () => void;
+	reflex: {
+		start: () => void;
+	}
 }
 
 interface ServerFunctions {}
 
 interface ClientEvents {
-	dispatch: (actions: Array<BroadcastAction>) => void;
-	hydrate: (actions: PlayerSave) => void;
-
-	start: () => void;
-
+	reflex: {
+		dispatch: (actions: Array<BroadcastAction>) => void;
+		hydrate: (actions: PlayerSave) => void;
+		start: () => void;
+	}
 }
 
 interface ClientFunctions {}
