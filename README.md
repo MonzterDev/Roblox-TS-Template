@@ -48,6 +48,9 @@ I found myself constantly struggling with using ESLint & Prettier for linting. U
 
 This isn't required, but solved my linting issues.
 
+### Preview UIs
+You can use the [UI Labs](https://ui-labs-roblox.github.io/ui-labs-docs/) Studio plugin to easily visualize and test your React UIs without even starting up your game!
+
 ### Debug
 Take advantage of `rbxts-transform-debug` to enhance your debugging experience! Use `$print(string)` for a neatly displayed output.
 
