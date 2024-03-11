@@ -21,7 +21,7 @@
     "prettier": "^3.2.5",
     "rbxts-transform-debug": "^2.1.0-beta.0",
     "rbxts-transformer-flamework": "^1.1.1",
-    "roblox-ts": "^2.3.0",
+    "roblox-ts": "^2.3.0-dev-3a5b920",
     "typescript": "^5.4.2"
   },
   "dependencies": {
@@ -32,9 +32,10 @@
     "@rbxts/compiler-types": "^2.3.0-types.0",
     "@rbxts/object-utils": "^1.0.4",
     "@rbxts/profileservice": "^1.4.1",
+    "@rbxts/react": "^0.3.3",
+    "@rbxts/react-reflex": "^0.3.4",
+    "@rbxts/react-roblox": "^0.3.3",
     "@rbxts/reflex": "^4.3.1",
-    "@rbxts/roact": "^1.4.4-ts.0",
-    "@rbxts/roact-reflex": "^2.1.0",
     "@rbxts/services": "^1.5.4",
     "@rbxts/signal": "^1.1.1",
     "@rbxts/t": "^3.1.1",

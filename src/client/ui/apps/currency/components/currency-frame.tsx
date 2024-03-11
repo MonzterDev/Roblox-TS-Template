@@ -1,34 +1,33 @@
-import Roact from "@rbxts/roact";
-import { withHooksPure } from "@rbxts/roact-hooked";
-import { useSelector, useSelectorCreator } from "@rbxts/roact-reflex";
+import React from "@rbxts/react";
+import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { Players } from "@rbxts/services";
 import { Currency } from "shared/configs/Currency";
 import { CURRENCY_ICONS } from "shared/configs/Gui";
 import { selectPlayerCurrency } from "shared/store/saves/save-selector";
 
-interface Props extends Roact.PropsWithChildren {
+interface Props extends React.PropsWithChildren {
 	currency: Currency;
 }
 
-function CurrencyFrame(props: Props) {
+export default function CurrencyFrame(props: Props) {
 	const balance = useSelectorCreator(selectPlayerCurrency, Players.LocalPlayer.Name, props.currency);
 
 	return (
 		<frame
-			Key={props.currency}
+			key={props.currency}
 			BackgroundColor3={Color3.fromRGB(152, 152, 152)}
 			BorderSizePixel={0}
 			Size={new UDim2(1, 0, 0, 65)}
 		>
 			<imagelabel
-				Key="Icon"
+				key="Icon"
 				BackgroundTransparency={1}
 				Image={CURRENCY_ICONS[props.currency]}
 				Position={new UDim2(0, 206, 0, 8)}
 				Size={new UDim2(0, 50, 0, 50)}
 			/>
 			<textlabel
-				Key="Amount"
+				key="Amount"
 				BackgroundTransparency={1}
 				Font={Enum.Font.FredokaOne}
 				Position={new UDim2(0, 34, 0, 17)}
@@ -41,14 +40,14 @@ function CurrencyFrame(props: Props) {
 				<uistroke Thickness={3} />
 			</textlabel>
 			<frame
-				Key="BuyMore"
+				key="BuyMore"
 				BackgroundColor3={Color3.fromRGB(61, 220, 68)}
 				BorderSizePixel={0}
 				Position={new UDim2(0, -17, 0, 13)}
 				Size={new UDim2(0, 40, 0, 40)}
 			>
 				<textlabel
-					Key="Text"
+					key="Text"
 					BackgroundTransparency={1}
 					Font={Enum.Font.FredokaOne}
 					Position={new UDim2(0, 6, 0, 0)}
@@ -67,5 +66,3 @@ function CurrencyFrame(props: Props) {
 		</frame>
 	);
 }
-
-export default withHooksPure(CurrencyFrame);
