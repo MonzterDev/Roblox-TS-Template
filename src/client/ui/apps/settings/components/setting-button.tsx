@@ -3,19 +3,24 @@ import React from "@rbxts/react";
 import { Events } from "client/network";
 import TextLabel from "client/ui/components/textLabel";
 import { Setting } from "shared/configs/Settings";
-import { Players } from "@rbxts/services";
+import { Players, RunService } from "@rbxts/services";
 import { selectPlayerSetting } from "shared/store/selectors/players";
+import { GetStatePlayerId } from "client/ui/utils/GetStatePlayerId";
+import { store } from "client/store";
 
 interface Props {
     setting: Setting
 }
 
 export default function SettingButton ( props: Props ) {
-    const value = useSelector( selectPlayerSetting( tostring(Players.LocalPlayer.UserId), props.setting ) )
+    const value = useSelector( selectPlayerSetting( GetStatePlayerId(), props.setting ) )
 
     const click = () => {
-        Events.toggleSetting( props.setting );
-        // store.toggleSetting( GetStatePlayerId(), props.setting );
+        const isInGame = RunService.IsRunning();
+        if ( isInGame )
+            Events.toggleSetting( props.setting );
+        else
+            store.toggleSetting( GetStatePlayerId(), props.setting );
     }
 
     return (

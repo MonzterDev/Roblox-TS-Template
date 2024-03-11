@@ -8,13 +8,14 @@ import { TextLabelButton } from "client/ui/components/textLabelButton";
 import { Currency } from "shared/configs/Currency";
 import { selectPlayerBalance } from "shared/store/selectors/players";
 import { COLORS } from "shared/configs/Gui";
+import { GetStatePlayerId } from "client/ui/utils/GetStatePlayerId";
 
 interface Props extends React.PropsWithChildren {
 	currency: Currency;
 }
 
 export default function CurrencyFrame ( props: Props ) {
-	const balance: number = useSelectorCreator( selectPlayerBalance, tostring(Players.LocalPlayer.UserId), props.currency )!;
+	const balance: number = useSelectorCreator( selectPlayerBalance, GetStatePlayerId(), props.currency )!;
 
 	return (
 		<Frame
@@ -46,7 +47,7 @@ export default function CurrencyFrame ( props: Props ) {
 				/>
 				<TextLabel
 					key={`CurrencyAmount`}
-					text={tostring(balance)}
+					text={tostring( balance )}
 					textSize={30}
 					textXAlignment={Enum.TextXAlignment.Right}
 					automaticSize={Enum.AutomaticSize.X}
