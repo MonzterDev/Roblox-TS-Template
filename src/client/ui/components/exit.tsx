@@ -1,5 +1,6 @@
 import React from "@rbxts/react";
 import { store } from "client/store";
+import { COLORS } from "shared/configs/Gui";
 
 interface Props extends React.PropsWithChildren {
 	uiStrokeSize?: number;
@@ -12,7 +13,7 @@ export default function Exit ( props: Props ) {
 	return (
 		<textbutton
 			key="Exit"
-			BackgroundColor3={Color3.fromRGB( 232, 70, 70 )}
+			BackgroundColor3={COLORS.Buttons.Off}
 			BorderSizePixel={0}
 			AnchorPoint={props.anchorPoint}
 			Position={props.position}
@@ -32,12 +33,15 @@ export default function Exit ( props: Props ) {
 				Position={new UDim2( 0.5, 0, 0.5, 0 )}
 				Size={new UDim2( 1, 0, 1, 0 )}
 				Text="X"
-				TextColor3={Color3.fromRGB( 255, 255, 255 )}
+				TextColor3={COLORS.White}
 				TextSize={38}
 			>
 				<uistroke Thickness={5} />
 			</textlabel>
-			<uistroke ApplyStrokeMode={Enum.ApplyStrokeMode.Border} Thickness={props.uiStrokeSize ?? 5} />
+			<uistroke
+				ApplyStrokeMode={Enum.ApplyStrokeMode.Border}
+				Thickness={props.uiStrokeSize ?? 5}
+			/>
 			<uicorner CornerRadius={new UDim( 0, 18 )} />
 		</textbutton>
 	);

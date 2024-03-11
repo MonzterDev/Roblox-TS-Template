@@ -17,27 +17,27 @@ export default function ButtonsApp () {
             const isCurrentPage = store.getState( selectHolderPage ) === name;
             store.setHolderPage( isCurrentPage ? undefined : name )
         }} />
-    })
+    } )
 
     return (
-		<Frame
-			key="Buttons"
-			layoutOrder={1}
-			backgroundTransparency={1}
-			size={new UDim2( 0, 240, 0, 160 )}
-			automaticSize={Enum.AutomaticSize.Y}
-		>
+        <Frame
+            key="Buttons"
+            layoutOrder={1}
+            backgroundTransparency={1}
+            size={new UDim2( 0, 240, 0, 160 )}
+            automaticSize={Enum.AutomaticSize.Y}
+        >
             <uigridlayout
                 CellPadding={new UDim2( 0, 15, 0, 15 )}
                 CellSize={new UDim2( 0, 70, 0, 70 )}
                 SortOrder={Enum.SortOrder.LayoutOrder}
-                VerticalAlignment={Enum.VerticalAlignment.Center}
+                VerticalAlignment={Enum.VerticalAlignment.Top}
                 HorizontalAlignment={Enum.HorizontalAlignment.Right}
             />
 
             {
                 buttons
             }
-		</Frame >
+        </Frame >
     );
 }
