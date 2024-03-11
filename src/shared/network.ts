@@ -2,11 +2,14 @@
 import { Networking } from "@flamework/networking";
 import { BroadcastAction } from "@rbxts/reflex";
 import { PlayerData } from "./store/slices/players/types";
+import { Setting } from "./configs/Settings";
 
 interface ServerEvents {
 	reflex: {
 		start: () => void;
 	}
+
+	toggleSetting: (setting: Setting) => void;
 }
 
 interface ServerFunctions {}

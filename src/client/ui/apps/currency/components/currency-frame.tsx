@@ -1,68 +1,70 @@
+import { useSelectorCreator } from "@rbxts/react-reflex";
 import React from "@rbxts/react";
-import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { Players } from "@rbxts/services";
+import Frame from "client/ui/components/frame";
+import ImageLabel from "client/ui/components/imageLabel";
+import TextLabel from "client/ui/components/textLabel";
+import { TextLabelButton } from "client/ui/components/textLabelButton";
 import { Currency } from "shared/configs/Currency";
-import { CURRENCY_ICONS } from "shared/configs/Gui";
 import { selectPlayerBalance } from "shared/store/selectors/players";
+import { COLORS } from "shared/configs/Gui";
 
 interface Props extends React.PropsWithChildren {
 	currency: Currency;
 }
 
-export default function CurrencyFrame(props: Props) {
-	const balance = useSelector(selectPlayerBalance(tostring(Players.LocalPlayer.UserId), props.currency));
+export default function CurrencyFrame ( props: Props ) {
+	const balance: number = useSelectorCreator( selectPlayerBalance, tostring(Players.LocalPlayer.UserId), props.currency )!;
 
 	return (
-		<frame
+		<Frame
 			key={props.currency}
-			BackgroundColor3={Color3.fromRGB(152, 152, 152)}
-			BorderSizePixel={0}
-			Size={new UDim2(1, 0, 0, 65)}
+			size={new UDim2( 0, 265, 0, 65 )}
+			uiCornerSize={new UDim( 0, 25 )}
 		>
-			<imagelabel
-				key="Icon"
-				BackgroundTransparency={1}
-				Image={CURRENCY_ICONS[props.currency]}
-				Position={new UDim2(0, 206, 0, 8)}
-				Size={new UDim2(0, 50, 0, 50)}
-			/>
-			<textlabel
-				key="Amount"
-				BackgroundTransparency={1}
-				Font={Enum.Font.FredokaOne}
-				Position={new UDim2(0, 34, 0, 17)}
-				Size={new UDim2(0, 166, 0, 31)}
-				Text={tostring(balance) ?? "0"}
-				TextColor3={Color3.fromRGB(255, 255, 255)}
-				TextSize={30}
-				TextXAlignment={Enum.TextXAlignment.Right}
-			>
-				<uistroke Thickness={3} />
-			</textlabel>
 			<frame
-				key="BuyMore"
-				BackgroundColor3={Color3.fromRGB(61, 220, 68)}
-				BorderSizePixel={0}
-				Position={new UDim2(0, -17, 0, 13)}
-				Size={new UDim2(0, 40, 0, 40)}
+				key="Holder"
+				Size={new UDim2( 1, 0, 1, 0 )}
+				BackgroundTransparency={1}
 			>
-				<textlabel
-					key="Text"
-					BackgroundTransparency={1}
-					Font={Enum.Font.FredokaOne}
-					Position={new UDim2(0, 6, 0, 0)}
-					Size={new UDim2(0, 27, 0, 31)}
-					Text="+"
-					TextColor3={Color3.fromRGB(255, 255, 255)}
-					TextSize={50}
-				>
-					<uistroke Thickness={3} />
-				</textlabel>
-				<uistroke Thickness={4} />
-				<uicorner CornerRadius={new UDim(0, 25)} />
+				<uilistlayout
+					FillDirection={Enum.FillDirection.Horizontal}
+					HorizontalAlignment={Enum.HorizontalAlignment.Right}
+					VerticalAlignment={Enum.VerticalAlignment.Center}
+					Padding={new UDim( 0, 10 )}
+					SortOrder={Enum.SortOrder.LayoutOrder}
+				/>
+				<uipadding
+					PaddingRight={new UDim( 0, 5 )}
+				/>
+				<ImageLabel
+					key="CurrencyIcon"
+					image={props.currency}
+					position={new UDim2( 0, 206, 0, 8 )}
+					size={new UDim2( 0, 50, 0, 50 )}
+					layoutOrder={1}
+				/>
+				<TextLabel
+					key={`CurrencyAmount`}
+					text={tostring(balance)}
+					textSize={30}
+					textXAlignment={Enum.TextXAlignment.Right}
+					automaticSize={Enum.AutomaticSize.X}
+				/>
 			</frame>
-			<uistroke Thickness={5} />
-			<uicorner CornerRadius={new UDim(0, 25)} />
-		</frame>
+
+			<TextLabelButton
+				key="BuyCurrency"
+				text="+"
+				textSize={50}
+				backgroundColor3={COLORS.Buttons.On}
+				position={new UDim2( 0, 0, 0.5, 0 )}
+				textPosition={new UDim2( 0.5, -1, 0.5, -4 )}
+				size={new UDim2( 0, 40, 0, 40 )}
+				buttonUiStrokeSize={4}
+				uiCornerSize={new UDim( 0, 25 )}
+				labelUiStrokeSize={3}
+			/>
+		</Frame>
 	);
 }

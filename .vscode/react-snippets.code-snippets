@@ -1,0 +1,19 @@
+{
+    "React App": {
+        "prefix": ["app", "reactapp", "roactapp"],
+        "description": "Create a React app",
+        "body": [
+          "import React from \"@rbxts/react\";",
+          "",
+          "interface Props {",
+          "",
+          "}",
+          "",
+          "export default function ${1:${TM_FILENAME_BASE/(^|-)([a-zA-Z0-9])/${2:/capitalize}/g}}(props: Props) {",
+          "\treturn (",
+          "\t\t<$0",
+          "\t);",
+          "}"
+          ]
+      }
+}
