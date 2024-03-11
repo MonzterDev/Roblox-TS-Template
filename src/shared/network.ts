@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Networking } from "@flamework/networking";
 import { BroadcastAction } from "@rbxts/reflex";
-import { PlayerSave } from "./store/saves/save-types";
+import { PlayerData } from "./store/slices/players/types";
 
 interface ServerEvents {
 	reflex: {
@@ -14,7 +14,7 @@ interface ServerFunctions {}
 interface ClientEvents {
 	reflex: {
 		dispatch: (actions: Array<BroadcastAction>) => void;
-		hydrate: (actions: PlayerSave) => void;
+		hydrate: (actions: PlayerData) => void;
 		start: () => void;
 	}
 }

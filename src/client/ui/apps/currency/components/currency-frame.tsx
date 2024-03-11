@@ -3,14 +3,14 @@ import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { Players } from "@rbxts/services";
 import { Currency } from "shared/configs/Currency";
 import { CURRENCY_ICONS } from "shared/configs/Gui";
-import { selectPlayerCurrency } from "shared/store/saves/save-selector";
+import { selectPlayerBalance } from "shared/store/selectors/players";
 
 interface Props extends React.PropsWithChildren {
 	currency: Currency;
 }
 
 export default function CurrencyFrame(props: Props) {
-	const balance = useSelectorCreator(selectPlayerCurrency, Players.LocalPlayer.Name, props.currency);
+	const balance = useSelector(selectPlayerBalance(tostring(Players.LocalPlayer.UserId), props.currency));
 
 	return (
 		<frame

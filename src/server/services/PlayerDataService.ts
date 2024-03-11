@@ -4,8 +4,9 @@ import ProfileService from "@rbxts/profileservice";
 import { Profile } from "@rbxts/profileservice/globals";
 import { Players, RunService } from "@rbxts/services";
 import { store } from "server/store";
-import { selectPlayerSave } from "shared/store/saves/save-selector";
-import { PlayerSave, defaultPlayerSave } from "shared/store/saves/save-types";
+import { selectPlayerBalances, selectPlayerData } from "shared/store/selectors/players";
+import { PlayerData } from "shared/store/slices/players/types";
+import { defaultPlayerData } from "shared/store/slices/players/utils";
 import { forEveryPlayer } from "shared/utils/functions/forEveryPlayer";
 
 let DataStoreName = "Production";
@@ -15,8 +16,8 @@ if ( RunService.IsStudio() ) DataStoreName = "Testing";
 
 @Service()
 export class PlayerDataService implements OnInit {
-	private profileStore = ProfileService.GetProfileStore(DataStoreName, defaultPlayerSave);
-	private profiles = new Map<Player, Profile<PlayerSave>>();
+	private profileStore = ProfileService.GetProfileStore(DataStoreName, defaultPlayerData);
+	private profiles = new Map<Player, Profile<PlayerData>>();
 
 	onInit() {
 		forEveryPlayer(
@@ -26,7 +27,7 @@ export class PlayerDataService implements OnInit {
 
 		task.spawn(() => {
 			while (true) {
-				Players.GetPlayers().forEach((player) => store.adjustPlayerCurrency(player.Name, "Coins", 1));
+				Players.GetPlayers().forEach((player) => store.changeBalance(tostring(player.UserId), "Coins", 1));
 				task.wait(1);
 			}
 		});
@@ -41,7 +42,7 @@ export class PlayerDataService implements OnInit {
 
 		profile.ListenToRelease(() => {
 			this.profiles.delete(player);
-			store.deletePlayerSave(player.Name);
+			store.closePlayerData(tostring(player.UserId));
 			player.Kick();
 		});
 
@@ -49,10 +50,10 @@ export class PlayerDataService implements OnInit {
 		profile.Reconcile();
 
 		this.profiles.set(player, profile);
-		store.setPlayerSave(player.Name, profile.Data);
+		store.loadPlayerData(tostring(player.UserId), profile.Data);
 		this.createLeaderstats(player);
 
-		const unsubscribe = store.subscribe(selectPlayerSave(player.Name), (save) => {
+		const unsubscribe = store.subscribe(selectPlayerData(tostring(player.UserId)), (save) => {
 			if (save) profile.Data = save;
 		});
 		Players.PlayerRemoving.Connect((player) => {
@@ -70,9 +71,9 @@ export class PlayerDataService implements OnInit {
 		const gems = new Instance("NumberValue", leaderstats);
 		gems.Name = "Gems";
 
-		const unsubscribe = store.subscribe(selectPlayerSave(player.Name), (save) => {
-			coins.Value = save?.currency.Coins ?? 0;
-			gems.Value = save?.currency.Gems ?? 0;
+		const unsubscribe = store.subscribe(selectPlayerBalances(tostring(player.UserId)), (save) => {
+			coins.Value = save?.Coins ?? 0;
+			gems.Value = save?.Gems ?? 0;
 		});
 		Players.PlayerRemoving.Connect((player) => {
 			if (player === player) unsubscribe();
